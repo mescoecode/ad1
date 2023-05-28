@@ -1,0 +1,473 @@
+CONTEXT MENU
+JAVA code -
+
+
+
+package com.example.contextmenu;
+
+
+
+import android.graphics.Color;
+
+
+
+import android.os.Bundle;
+
+
+
+import android.view.ContextMenu;
+
+
+
+import android.view.MenuItem;
+
+
+
+import android.view.View;
+
+
+
+import android.widget.RelativeLayout;
+
+
+
+import android.widget.TextView;
+
+
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
+
+
+
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+
+    TextView textView;
+
+
+
+    RelativeLayout relativeLayout;
+
+
+
+
+
+
+
+    @Override
+
+
+
+    protected void onCreate(Bundle savedInstanceState) {
+
+
+
+        super.onCreate(savedInstanceState);
+
+
+
+        setContentView(R.layout.activity_main);
+
+
+
+
+
+
+
+        // Link those objects with their respective id's that we have given in .XML file
+
+
+
+        textView = (TextView) findViewById(R.id.textView);
+
+
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.relLayout);
+
+
+
+
+
+
+
+        // here you have to register a view for context menu you can register any view
+
+
+
+        // like listview, image view, textview, button etc
+
+
+
+        registerForContextMenu(textView);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    @Override
+
+
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+
+
+        // you can set menu header with title icon etc
+
+
+
+        menu.setHeaderTitle("Choose a color");
+
+
+
+        // add menu items
+
+
+
+        menu.add(0, v.getId(), 0, "black");
+
+
+
+        menu.add(0, v.getId(), 0, "gray");
+
+
+
+        menu.add(0, v.getId(), 0, "cyan");
+
+
+
+    }
+
+
+
+
+
+
+
+    // menu item select listener
+
+
+
+    @Override
+
+
+
+    public boolean onContextItemSelected(MenuItem item) {
+
+
+
+        if (item.getTitle() == "black") {
+
+
+
+            relativeLayout.setBackgroundColor(Color.BLACK);
+
+
+
+        } else if (item.getTitle() == "gray") {
+
+
+
+            relativeLayout.setBackgroundColor(Color.GRAY);
+
+
+
+        } else if (item.getTitle() == "cyan") {
+
+
+
+            relativeLayout.setBackgroundColor(Color.CYAN);
+
+
+
+        }
+
+
+
+        return true;
+
+
+
+    }
+
+
+
+}
+
+
+
+XML code - 
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Relative Layout to display all the details -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/relLayout"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:background="#fff"
+
+    android:padding="16dp"
+
+    tools:context="com.myapp.contextmenu.MainActivity">
+
+
+
+    <TextView
+
+        android:id="@+id/textView"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="20dp"
+
+        android:text="Long press me!"
+
+        android:textColor="#000"
+
+        android:textSize="20sp"
+
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
+
+
+For Popup Menu-
+
+
+
+Code   1.	activity_main.xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    tools:context="com.popup.MainActivity">
+
+    <Button
+
+        android:id="@+id/clickBtn"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:background="#0F9D58"
+
+        android:text="click_me"
+
+        android:textColor="#ffffff"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+2.	MainActivity.java-
+
+
+
+package com.popup;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import android.view.MenuItem;
+
+import android.view.View;
+
+import android.widget.Button;
+
+import android.widget.PopupMenu;
+
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        // Referencing and Initializing the button
+
+        Button button = (Button) findViewById(R.id.clickBtn);
+
+        // Setting onClick behavior to the button
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+
+            public void onClick(View view) {
+
+                // Initializing the popup menu and giving the reference as current context
+
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, button);
+
+                // Inflating popup menu from popup_menu.xml file
+
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                        // Toast message on menu item clicked
+
+                        Toast.makeText(MainActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+
+                        return true;
+
+                    }
+
+                });
+
+                // Showing the popup menu
+
+                popupMenu.show();
+
+            }
+
+        });
+
+    }
+
+}
+
+3.	colors.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <color name="purple_200">#FFBB86FC</color>
+
+    <color name="purple_500">#FF6200EE</color>
+
+    <color name="purple_700">#FF3700B3</color>
+
+    <color name="teal_200">#FF03DAC5</color>
+
+    <color name="teal_700">#FF018786</color>
+
+    <color name="black">#FF0000</color>
+
+    <color name="white">#FFFFFFFF</color>
+
+</resources>
+
+4.	popup_menu.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+
+        android:id="@+id/java"
+
+        android:title="Java" />
+
+
+
+    <item
+
+        android:id="@+id/kotlin"
+
+        android:title="Kotlin" />
+
+
+
+    <item
+
+        android:id="@+id/android"
+
+        android:title="Android" />
+
+
+
+    <item
+
+        android:id="@+id/react_native"
+
+        android:title="React Native" />
+
+
+
+</menu>
+
+
+
+//NOTE
+
+//POPUP
+
+make change in mainfiest file 
+
+Android : lable= "popup_menu"
+
+
+
+//HOW TO MAKE POPUP FILE
+
+Right click on res -> new -> Android Resource File -> enter file name (menu)
+
+Right click on menu -> new -> menu Resource file -> enter file name (popup_menu)
+

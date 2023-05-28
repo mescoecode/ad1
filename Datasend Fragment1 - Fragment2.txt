@@ -1,0 +1,339 @@
+Datasend Fragment1 - Fragment2
+Code -
+
+
+
+1.	Activity_main.xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    tools:context=".MainActivity">
+
+    <FrameLayout
+
+        android:id="@+id/container1"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+
+2.	MainActivity.Java
+
+package com.example.fragtofragment;
+
+import android.support.v7.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import android.widget.FrameLayout;
+
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+
+    FrameLayout frameLayout;
+
+    @Override
+
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        frameLayout=findViewById(R.id.container1);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.container1,new FirstFragment()).commit();
+
+    }
+
+}
+
+
+
+3.	First_Fragment.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:gravity="center"
+
+    android:orientation="vertical"
+
+    tools:context=".FirstFragment">
+
+    <TextView
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+
+        android:text="blank_fragment"
+
+        android:textSize="24sp"
+
+        tools:ignore="HardcodedText" />
+
+    <EditText
+
+        android:id="@+id/username"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:autofillHints="EnterUserName"
+
+        android:hint="EnterUserName"
+
+        tools:ignore="HardcodedText"/>
+
+    <Button
+
+        android:id="@+id/Submit"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Submit" /></LinearLayout>
+
+
+
+
+
+4.	First_Fragment.java
+
+package com.example.fragtofragment;
+
+import android.os.Bundle;
+
+import android.support.v4.app.Fragment;
+
+import android.view.LayoutInflater;
+
+import android.view.View;
+
+import android.view.ViewGroup;
+
+import android.widget.Button;
+
+import android.widget.EditText;
+
+public class FirstFragment extends Fragment implements View.OnClickListener {
+
+    View rootView;
+
+    EditText username;
+
+    Button button;
+
+    @Override
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+
+                             Bundle savedInstanceState) {
+
+
+
+        rootView= inflater.inflate(R.layout.fragment_first, container, false);
+
+        initview();
+
+       return rootView;
+
+    }
+
+    private void initview() {
+
+        username=rootView.findViewById(R.id.username);
+
+        button=rootView.findViewById(R.id.Submit);
+
+        button.setOnClickListener(this);
+
+    }
+
+    @Override
+
+    public void onClick(View view) {
+
+     if(view.getId()==R.id.Submit){
+
+         Bundle bundle = new Bundle();
+
+         String myuserdata = username.getText().toString().trim();
+
+         bundle.putString("username",myuserdata);
+
+         bundle.putInt("myNumber",0173111111);
+
+         SecondFragment secondFragment = new SecondFragment();
+
+         secondFragment.setArguments(bundle);
+
+         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container1,secondFragment).commit();
+
+     }}}
+
+
+
+
+
+5.	Second_Fragment.xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+
+    android:gravity="center"
+
+    tools:context=".SecondFragment">
+
+    <TextView
+
+       android:gravity="center"
+
+        android:textSize="25sp"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:text="Second fragment"
+
+        tools:ignore="HardcodedText" />
+
+    <TextView
+
+        android:id="@+id/get_username"
+
+        android:gravity="center"
+
+        android:textSize="25sp"
+
+        android:layout_marginTop="30dp"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:text=""
+
+        tools:ignore="HardcodedText"/>
+
+</LinearLayout>
+
+
+
+
+
+6.	Second_Fragment.java
+
+
+
+package com.example.fragtofragment;
+
+
+
+import android.annotation.SuppressLint;
+
+import android.os.Bundle;
+
+import android.support.v4.app.Fragment;
+
+import android.view.LayoutInflater;
+
+import android.view.View;
+
+import android.view.ViewGroup;
+
+import android.widget.TextView;
+
+
+
+public class SecondFragment extends Fragment {
+
+
+
+    View rootView;
+
+    TextView getuserTextView;
+
+
+
+    @SuppressLint("SetTextI18n")
+
+    @Override
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+      rootView=inflater.inflate(R.layout.fragment_second, container, false);
+
+      getuserTextView=rootView.findViewById(R.id.get_username);
+
+      Bundle bundle = this.getArguments();
+
+        assert bundle != null;
+
+        String myUsername = bundle.getString("username");
+
+      int  mynumber = bundle.getInt("myNumber");
+
+      getuserTextView.setText(myUsername+"\n"+mynumber);
+
+      return rootView;
+
+}
+
+
+

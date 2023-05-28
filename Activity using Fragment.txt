@@ -1,0 +1,122 @@
+Activity using Fragment-
+java code -
+
+
+
+package com.example.myapplication_fragactivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+public MainActivity() {
+
+super(R.layout.activity_main);
+
+}
+
+@Override
+
+protected void onCreate(Bundle savedInstanceState) {
+
+super.onCreate(savedInstanceState);
+
+if (savedInstanceState == null) {
+
+getSupportFragmentManager().beginTransaction()
+
+.setReorderingAllowed(true)
+
+.add(R.id.fragment_container_view, Fragment1.class, null)
+
+.commit();
+
+}
+
+}
+
+}
+
+
+
+Fragment1.java code
+
+
+
+package com.example.myapplication_fragactivity;
+
+import androidx.fragment.app.Fragment;
+
+/**
+
+* A simple {@link Fragment} subclass.
+
+* Use the {@link Fragment1#newInstance} factory method to
+
+* create an instance of this fragment.
+
+*/
+
+public class Fragment1 extends Fragment {
+
+public Fragment1() {
+
+super(R.layout.fragment_1);
+
+}
+
+}
+
+
+
+Activity_main.xml code -
+
+
+
+<androidx.fragment.app.FragmentContainerView
+
+xmlns:android="http://schemas.android.com/apk/res/android"
+
+android:id="@+id/fragment_container_view"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:name="com.example.fragment.Fragment1" />
+
+
+
+
+
+Fragment_1.xml
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+tools:context=".Fragment1">
+
+<!-- TODO: Update blank fragment layout -->
+
+<TextView
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+android:text="@string/hello_blank_fragment" />
+
+</FrameLayout>

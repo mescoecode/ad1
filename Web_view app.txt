@@ -1,0 +1,84 @@
+Web_view app
+Code:
+
+
+
+1. MainActivity.Java
+
+
+
+package com.example.webview;
+
+import android.os.Bundle;
+
+import android.webkit.WebView;
+
+import android.webkit.WebViewClient;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+@Override
+
+protected void onCreate(Bundle savedInstanceState) {
+
+super.onCreate(savedInstanceState);
+
+setContentView(R.layout.activity_main);
+
+// Find the WebView by its unique ID
+
+WebView webView = findViewById(R.id.web);
+
+// loading url in the WebView.
+
+webView.loadUrl("https://mescoe.mespune.org/");
+
+// this will enable the javascript.
+
+webView.getSettings().setJavaScriptEnabled(true);
+
+// WebViewClient allows you to handle
+
+// onPageFinished and override Url loading.
+
+webView.setWebViewClient(new WebViewClient());
+
+}
+
+}
+
+
+
+2. Activity_main.xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+xmlns:tools="http://schemas.android.com/tools"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+tools:context=".MainActivity">
+
+<!-- unique ID of WebView -->
+
+<WebView
+
+android:id="@+id/web"
+
+android:layout_width="match_parent"
+
+android:layout_height="match_parent"
+
+tools:layout_editor_absoluteX="8dp"
+
+tools:layout_editor_absoluteY="8dp" />
+
+</RelativeLayout>
